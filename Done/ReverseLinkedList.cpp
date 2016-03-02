@@ -10,7 +10,19 @@ typedef struct Node{
     }
 
 } Node;
-void reverseList(Node *head);
+void reverseList(Node **h){
+    Node *head = *h;
+    Node *t, *temp;
+    Node *prev = NULL;
+    while(head){
+        t = head->next;
+        head->next = prev;
+        prev = head;
+        head = t;
+    }
+    head = prev;
+    *h = head;
+}
 
 int main(){
     Node *head = NULL;
@@ -32,11 +44,11 @@ int main(){
     t->next = new Node(-7);
     t=t->next;
     t->next = new Node(110);
+    reverseList(&head);
 
     while(head){
         cout<<head->data<<endl;
-        head=head->next;
+        head = head->next;
     }
-
     return 0;
 }
