@@ -16,5 +16,6 @@ int main()
     for(i=0;i<N;i++){
         scanf("%d", &arr[i]);
     }
+    int mid = N/2;
     return 0;
 }
