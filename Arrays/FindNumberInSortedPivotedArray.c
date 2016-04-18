@@ -5,6 +5,12 @@
 //
 
 #include<stdio.h>
+
+int binarySearch(int left, int right, int target)
+{
+    return left;
+}
+
 int main()
 {
     int arr[100];
@@ -17,5 +23,8 @@ int main()
         scanf("%d", &arr[i]);
     }
     int mid = N/2;
+
+#Find the pivot point
+#Do binary search on either side of the pivot
     return 0;
 }
