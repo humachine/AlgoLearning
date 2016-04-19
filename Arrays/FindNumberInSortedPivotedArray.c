@@ -22,9 +22,29 @@ int main()
     for(i=0;i<N;i++){
         scanf("%d", &arr[i]);
     }
-    int mid = N/2;
+    mid = N/2;
+    left=0;
+    right=N;
 
-#Find the pivot point
-#Do binary search on either side of the pivot
+    while(1){
+        mid=(left+right)/2;
+        if(mid==right)
+            break;
+        if(mid==left)
+            break;
+        if(arr[mid]>arr[right]){
+            left=mid+1;
+        }
+        else{
+            right=mid-1;
+        }
+    }
+    printf("%d is the pivot position", mid);
+    
+  
+//Find the pivot point
+//Do binary search on either side of the pivot
+
+
     return 0;
 }
