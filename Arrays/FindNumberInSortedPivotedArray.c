@@ -6,6 +6,11 @@
 
 #include<stdio.h>
 int search(int *array, int left, int right, int target);
+int binarySearch(int left, int right, int target)
+{
+    return left;
+}
+
 int main()
 {
     int arr[100];
@@ -22,6 +27,11 @@ int main()
     left = 0;
     right = N;
     int res = search(arr, left, right, target);
+    if(res>0)
+        printf("%d found at position %d\n", target, res);
+    else
+        printf("NOT FOUND!\n");
+  
     return 0;
 }
 int search(int *arr, int left, int right, int target){
