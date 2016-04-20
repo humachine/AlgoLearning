@@ -37,14 +37,19 @@ int main()
 int search(int *arr, int left, int right, int target){
     if(left > right)
         return -1;
-    int mid = (left+right)/2;
+    int mid;
+    mid=(left+right)/2;
     if(arr[mid]==target)
         return mid;
-    if(arr[left] < arr[mid]) { //Left subarray is sorted
-        if(target > arr[left] && target < arr[mid])
+
+    if(arr[left] <= arr[mid]){ //Left half of the array is sorted. Pivot point is in the right half
+        if(arr[left]<=target && target<=arr[mid])
             return search(arr, left, mid-1, target);
         return search(arr, mid+1, right, target);
     }
-    
+    //If left half of the array has the pivot point, then the right half of the array is sorted
+    if(arr[mid]<=target && target<=arr[right])
+        return search(arr, mid+1, right, target);
+    return search(arr, left, mid-1, target);
 }
 
