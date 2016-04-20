@@ -5,6 +5,7 @@
 //
 
 #include<stdio.h>
+int search(int *array, int left, int right, int target);
 int main()
 {
     int arr[100];
@@ -16,5 +17,24 @@ int main()
     for(i=0;i<N;i++){
         scanf("%d", &arr[i]);
     }
+    int target;
+    scanf("%d", &target);
+    left = 0;
+    right = N;
+    int res = search(arr, left, right, target);
     return 0;
 }
+int search(int *arr, int left, int right, int target){
+    if(left > right)
+        return -1;
+    int mid = (left+right)/2;
+    if(arr[mid]==target)
+        return mid;
+    if(arr[left] < arr[mid]) { //Left subarray is sorted
+        if(target > arr[left] && target < arr[mid])
+            return search(arr, left, mid-1, target);
+        return search(arr, mid+1, right, target);
+    }
+    
+}
+
