@@ -15,9 +15,24 @@ public class ArrayRotation {
     public static void main(String[] args){
         int[] array= {1, 2, 3, 4, 5, 6, 7, 8, 9};
         int d = 3;
+        arrayRotate(array, d);
     }
     static void arrayRotate(int[] array, int d){
         //Static series of swaps
+        int length = array.length;
+        int i, j, k, temp;
+        int pos;
+        for(i=0;i<length;i++){
+            pos=(i+d)%length;
+            temp=array[i];
+            array[i]=array[pos];
+            array[pos]=temp;
+        }
+
+        for(i=0;i<length;i++)
+            System.out.println(array[i]);
+
+        
 
     }
     
