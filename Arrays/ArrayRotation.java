@@ -32,8 +32,6 @@ public class ArrayRotation {
         for(i=0;i<length;i++)
             System.out.println(array[i]);
 
-        
-
     }
     
 }
