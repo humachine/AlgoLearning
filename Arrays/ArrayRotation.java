@@ -27,10 +27,7 @@ public class ArrayRotation {
             temp=array[i];
             array[i]=array[pos];
             array[pos]=temp;
-        }
-
-        for(i=0;i<length;i++)
-            System.out.println(array[i]);
+       }
 
     }
     
