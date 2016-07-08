@@ -5,13 +5,15 @@
 //Input: Array of numbers
 //Output: Elements that are leaders in the array
 //
-//Complexity = O(n)
+//Time Complexity = O(n)
+//Space Complexity = O(1) extra space
 
 
 import static java.lang.System.out;
 import java.util.Scanner;
 
 public class ArrayLeaders{
+    //Driver Function
     public static void main(String[] args){
         Scanner in = new Scanner(System.in);
 
@@ -29,12 +31,11 @@ public class ArrayLeaders{
             Leader(arr, N);
         }
     }
+    //Array Leader function
     static void Leader(int[] arr, int N){
         int i, maxSoFar;
         maxSoFar=arr[N-1];
         System.out.println(maxSoFar);
-        if(N==1)
-            return;
 
         for(i=N-2;i>=0;i--){
             if(arr[i]>maxSoFar){
