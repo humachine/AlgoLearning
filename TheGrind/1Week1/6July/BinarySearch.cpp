@@ -19,6 +19,7 @@ int binarySearch(vector<int> vec, int x){
 
     while(left <= right){
         mid=(left+right)/2;
+        cout<<mid<<vec[mid];
 
         //If element has been found
         if(vec[mid]==x)
