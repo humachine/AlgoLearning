@@ -33,6 +33,8 @@ public class ArrayLeaders{
         int i, maxSoFar;
         maxSoFar=arr[N-1];
         System.out.println(maxSoFar);
+        if(N==1)
+            return;
 
         for(i=N-2;i>=0;i--){
             if(arr[i]>maxSoFar){
