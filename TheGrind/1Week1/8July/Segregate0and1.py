@@ -26,5 +26,5 @@ def Segregate(arr):
 T=int(input())
 for i in xrange(T):
     N=int(input())
-    arr=map(int, input().split())
+    arr=map(int, raw_input().split())
     Segregate(arr)
