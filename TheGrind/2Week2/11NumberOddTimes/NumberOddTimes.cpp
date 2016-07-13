@@ -22,17 +22,18 @@ int main()
     int ii, jj, kk;
     int i, j, k, ans, temp;
     int N;
+    int result;
 
     vector<int> vec;
 
     for(ii=0;ii<T;ii++){
         cin>>N;
+        result=0; 
         for(jj=0;jj<N;jj++){
             cin>>temp;
-            vec.push_back(temp);
+            result^=temp;
         }
-        int result=FindOddNumber(vec);
-        cout<<result;
+        cout<<result^0x0;
     }
     return 0;
 }
