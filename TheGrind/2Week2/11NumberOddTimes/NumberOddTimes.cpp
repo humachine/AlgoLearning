@@ -33,7 +33,8 @@ int main()
             cin>>temp;
             result^=temp;
         }
-        cout<<result^0x0;
+        result=result^(0x0);
+        cout<<result<<endl;
     }
     return 0;
 }
