@@ -3,6 +3,10 @@
 //Given a list of N-1 numbers from 1 to N find the missing number.
 //Input: Array of N-1 numbers
 //Output: Missing Number
+//
+//Time Complexity = O(n) with STREAMING
+//Space Complexity = O(1) extra space
+
 import java.util.Scanner;
 
 public class MissingNumber{
