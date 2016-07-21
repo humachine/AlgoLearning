@@ -13,6 +13,31 @@
 using namespace std;
 
 int pivotedBinarySearch(vector<int> vec, int x){
+    int len = vec.size();
+    int left = 0;
+    int right = len-1;
+
+    int mid = (left+right)/2;
+    while(left <= right){
+        mid = (left+right)/2;
+        if(vec[mid] == x)
+            return mid;
+        //If left half is sorted
+        if (vec[left] <= vec[mid]){
+            if(vec[left] <= x && x < vec[mid]){
+                right = mid-1;
+                continue;
+            }
+            left=mid+1;
+            continue;
+        }
+        if (vec[mid] < x && x <= vec[right]){
+            left = mid+1;
+            continue;
+        }
+        right = mid-1;
+        continue;
+    }
     return -1;
 }
 int main(){
@@ -30,6 +55,7 @@ int main(){
         }
         cin>>x;
         cout<<pivotedBinarySearch(vec, x)<<endl;
+        vec.clear();
     }
 
     return 0;
