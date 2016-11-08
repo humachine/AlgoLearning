@@ -16,21 +16,25 @@ public:
             if(s[i]==' ')
                 continue;
             else if(isdigit(s[i])){
-                last = last*10 + (s[i]-'0');
-                if(!num_stack.empty()){
-                    num_stack.pop();
+                last = (s[i++]-'0');
+                while(i < s.size() && isdigit(s[i])){
+                    last = last*10 + (s[i++]-'0');
                 }
+                i--;
                 num_stack.push(last);
-                
-            }
-            else if(s[i] == '+' || s[i]=='-' ){
                 last = 0;
-                num_stack.push(last);
+            }
+            /*
+             4 + 3*5        4 3 
+            */
+            else if(s[i] == '+' || s[i]=='-' ){
                 op_stack.push(s[i]);
             }
             else if(s[i]=='*' || s[i]=='/'){
-                last = 0;
-                num_stack.push(last);
+                while(op_stack.top() == '+' || '-'){
+                    char op = op_stack.top();
+                    op_stack.pop();
+                }
             }
             else if(s[i] == '(' || s[i]==')'){
                 
