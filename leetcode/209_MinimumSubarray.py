@@ -11,7 +11,10 @@ def minSubArrayLen(s, nums):
     left, right, addedSum = 0, 0, 0
     ans = len(nums)
     while left < len(nums):
-        if addedSum <s and right<len(nums)-1:
+        print left, right, addedSum
+        if addedSum <s:
+            if right == len(nums):
+                break
             addedSum += nums[right];
             right+=1
         else:
@@ -21,4 +24,6 @@ def minSubArrayLen(s, nums):
                 addedSum -= nums[left]
     return ans
 
-print(minSubArrayLen(4, [1, 4, 4]))
+s = 11
+li = [1,2,3,4,5]
+print(minSubArrayLen(s, li))
