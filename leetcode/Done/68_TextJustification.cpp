@@ -4,66 +4,50 @@
 #include<algorithm>
 using namespace std;
 class Solution {
-        string JustifyLine(vector<string>& words, const int maxWidth, int start, int num_words){
-            string answer(maxWidth, ' ');
+    int fillString(string& s1, string s2, int start){
+        int i;
+        for(i=0; i<s2.size(); i++)
+            s1[start+i] = s2[i];
+        return start+i;
+    }
+    string JustifyLine(vector<string>& words, int start, int end, int charCount, int maxWidth){
+        int num_gaps = end - start - 1;
+        int i, j, extra_spaces, space_count;
+        extra_spaces = maxWidth - charCount;
+        string result(maxWidth, ' ');
+        int pos = fillString(result, words[start], 0);
 
-            //Calculate number of characters in line
-            int i=0, j, num_gaps, num_chars, num_spaces;
-            num_gaps = (num_words==1) ? 1: num_words-1;
-            num_chars = 0;
-            for(j=start;j<start+num_words;j++){
-                num_chars += words[j].size();
-            }
-            //Calculate number of spaces for this line
-            num_spaces = maxWidth - num_chars;
-            num_spaces -= num_gaps;
-
-            //Paste strings into line
-            int pos = 0;
-            pos = putStringIntoVector(answer, words[start], pos);
-            for(j=start+1;j<start+num_words;j++, num_gaps--){
-                pos+= ceil(float(num_spaces)/num_gaps) + 1;
-                num_spaces -= ceil(float(num_spaces)/num_gaps);
-                pos = putStringIntoVector(answer, words[j], pos);
-            }
-            return answer;
+        for(i=start+1; i<end; i++){
+            space_count = (extra_spaces+num_gaps-1) / num_gaps;
+            num_gaps--;
+            extra_spaces -= space_count;
+            pos = fillString(result, words[i], pos+1+space_count);
         }
-        int putStringIntoVector(string& line, string s, int pos){
-            int i, j;
-            for(i=pos, j=0;j<s.size();i++, j++)
-                line[i] = s[j];
-            return i;
-        }
+        return result;
+    }
     public:
         vector<string> fullJustify(vector<string>& words, const int maxWidth) {
-            vector<string> answer;
-            if(words.empty()){
-                answer.push_back("");
-                return answer;
-            }
-            int i, curr_count, start, num_words;
-            for(i=0; i<words.size();){
-                curr_count = words[i].size();
-                start = i++, num_words = 1;
+            vector<string> result;
+            if(words.empty() || maxWidth==0)    return result;
+            int i, j, curr_chars, temp, k;
+            int n = words.size();
 
-                while(i<words.size() && curr_count+words[i].size()+1 <= maxWidth){
-                    curr_count+=words[i++].size() + 1;
-                    num_words++;
+            string line;
+            vector<char> v;
+            for(i=0; i<n; i++){
+                curr_chars = words[i].size();
+                j=i+1;
+                while(j<n && curr_chars+1+words[j].size() <= maxWidth){
+                    curr_chars += 1 + words[j++].size();
                 }
-                if(i < words.size() ){
-                    answer.push_back(JustifyLine(words, maxWidth, start, num_words));
-                }
-                else{
-                    string line(maxWidth, ' ');
-                    int pos = putStringIntoVector(line, words[start], 0);
-                    for(int j=start+1;j<words.size();j++){
-                        pos++;
-                        pos = putStringIntoVector(line, words[j], pos);
-                    }
-                    answer.push_back(line);
-                }
+                if(j==n)
+                    line = JustifyLine(words, i, n, maxWidth, maxWidth);
+                else
+                    line = JustifyLine(words, i, j, curr_chars, maxWidth);
+                result.push_back(line);
+                i = j-1;
             }
-            return answer;
+            return result;
         }
 };
 
