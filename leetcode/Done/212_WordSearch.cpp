@@ -7,97 +7,98 @@
 using namespace std;
 typedef class TrieNode{
     public:
-        string text;
-        TrieNode* children[26];
+        TrieNode *children[26];
+        bool is_word;
         TrieNode(){
             for(int i=0;i<26;i++)
                 children[i] = NULL;
+            is_word = false;
         }
 } TrieNode;
-
-class Trie{
-    TrieNode* root;
+typedef class Trie{
+    TrieNode* search(string word){
+        TrieNode* node = root;
+        for(int i=0;i<word.size();i++){
+            if(!node->children[word[i]-'a'])
+                return NULL;
+            node = node->children[word[i]-'a'];
+        }
+        return node;
+    }
     public:
-    Trie(){
-        root = new TrieNode();
-    }
-    void insert(string word){
-        TrieNode *node = root;
-        for(int i=0; i<word.size(); i++){
-            if(node->children[word[i]-'a'] == NULL){
-                node->children[word[i]-'a'] = new TrieNode();
+        TrieNode *root;
+        Trie(){
+            root = new TrieNode();
+        }
+        void insert(string word){
+            TrieNode* node = root;
+            for(int i=0;i<word.size();i++){
+                if(node->children[word[i]-'a'] == NULL){
+                    node->children[word[i]-'a'] = new TrieNode();
+                }
+                node = node->children[word[i]-'a'];
             }
-            node = node->children[word[i]-'a'];
+            node->is_word = true;
         }
-        node->text = word;
-    }
-    bool search(string word){
-        TrieNode *node = root;
-        for(int i=0; i<word.size(); i++){
-            if(node->children[word[i]-'a'] == NULL)
-                return false;
-            node = node->children[word[i]-'a'];
+        bool searchWord(string word){
+            TrieNode* result = search(word);
+            if(!result) return false;
+            return result->is_word;
         }
-        return node->text == word;
-    }
-    bool startsWith(string word){
-        if(word.empty())    return false;
-        TrieNode *node = root;
-        for(int i=0; i<word.size(); i++){
-            if(node->children[word[i]-'a'] == NULL)
-                return false;
-            node = node->children[word[i]-'a'];
+        bool startsWith(string word){
+            if(word.empty())    return true;
+            TrieNode* result = search(word);
+            if(!result) return false;
+            return true;
         }
-        return true;
-    }
-};
-
-class Solution {
-    void createTrie(vector<string>& words, Trie& tr){
-        for(auto word: words)
-            tr.insert(word);
-    }
-    void dfs(vector<vector<char> >& board, int x, int y, string res,
-            unordered_set<string>& answer, Trie& tr){
+}Trie;
+class Solution{
+    void dfs(vector<vector<char> >& board, int x, int y, string res, unordered_set<string>& answer, Trie word_trie){
         if(board[x][y] == '#')  return;
+        if(!word_trie.startsWith(res))  return;
 
-        if(tr.startsWith(res+board[x][y])){
-            char c = board[x][y];
-            board[x][y] = '#';
+        char c = board[x][y];
+        board[x][y] = '#';
+        //Send off DFS searches
+        if(x-1>=0)  dfs(board, x-1, y, res+c, answer, word_trie);
+        if(x+1<board.size()) dfs(board, x+1, y, res+c, answer, word_trie);
+        if(y+1<board[0].size()) dfs(board, x, y+1, res+c, answer, word_trie);
+        if(y-1>=0) dfs(board, x, y-1, res+c, answer, word_trie);
 
-            int i=x, j=y;
-            if(i>0) dfs(board, i-1, j, res+c, answer, tr);
-            if(i<board.size()-1) dfs(board, i+1, j, res+c, answer, tr);
-            if(j>0) dfs(board, i, j-1, res+c, answer, tr);
-            if(j<board[0].size()-1) dfs(board, i, j+1, res+c, answer, tr);
+        //Reset changes to board
+        board[x][y] = c;
 
-            board[x][y] = c;
+        //Check if current res is word
+        if(word_trie.searchWord(res+c)){
+            answer.insert(res+c);
+            //cout<<res+c<<endl;
         }
-        if(tr.search(res+board[x][y]))
-            answer.insert(res+board[x][y]);
 
+    }
+    void LoadTrie(Trie& word_trie, vector<string>& words){
+        for(int i=0; i<words.size(); i++){
+            word_trie.insert(words[i]);
+        }
     }
     public:
         vector<string> findWords(vector<vector<char> >& board, vector<string>& words) {
             unordered_set<string> answer;
-            vector<string> finalanswer;
-            if(board.empty() || board[0].empty())   return finalanswer;
+            if(board.empty())   return vector<string>();
+            int m = board.size(), n=board[0].size();
 
-            Trie tr;
-            createTrie(words, tr);
+            Trie word_trie;
+            LoadTrie(word_trie, words);
 
-            int i, j, m=board.size(), n=board[0].size();
-            for(i=0;i<m;i++){
+            int i, j;
+            string res;
+            for(i=0; i<m; i++){
                 for(j=0; j<n; j++){
-                    string res = "";
-                    dfs(board, i, j, res, answer, tr);
-
+                    dfs(board, i, j, "", answer, word_trie);
                 }
             }
             return vector<string>(answer.begin(), answer.end());
-            return finalanswer;
+            
         }
-
 };
 int main(){
     char a1[] = {'o','a','a','n'};
