@@ -5,7 +5,7 @@
 #include<unordered_map>
 #include<algorithm>
 using namespace std;
-typedef class TrieNode{
+class TrieNode{
     public:
         TrieNode *children[26];
         bool is_word;
@@ -14,8 +14,8 @@ typedef class TrieNode{
                 children[i] = NULL;
             is_word = false;
         }
-} TrieNode;
-typedef class Trie{
+};
+class Trie{
     TrieNode* search(string word){
         TrieNode* node = root;
         for(int i=0;i<word.size();i++){
@@ -43,7 +43,7 @@ typedef class Trie{
         bool searchWord(string word){
             TrieNode* result = search(word);
             if(!result) return false;
-            return result->is_word;
+ 
         }
         bool startsWith(string word){
             if(word.empty())    return true;
@@ -51,7 +51,7 @@ typedef class Trie{
             if(!result) return false;
             return true;
         }
-}Trie;
+};
 class Solution{
     void dfs(vector<vector<char> >& board, int x, int y, string res, unordered_set<string>& answer, Trie word_trie){
         if(board[x][y] == '#')  return;
