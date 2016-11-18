@@ -71,7 +71,6 @@ class Solution{
         //Check if current res is word
         if(word_trie.searchWord(res+c)){
             answer.insert(res+c);
-            //cout<<res+c<<endl;
         }
 
     }
