@@ -15,7 +15,6 @@ class Solution {
                 if(charLocs[s[right]]>left)
                     left = charLocs[s[right]];
                 charLocs[s[right]] = right+1;
-                //cout<<left<<' '<<right<<endl;
                 maxLen = max(maxLen, right-left+1);
             }
             return maxLen;

@@ -8,91 +8,55 @@
 #include<unordered_set>
 #include<vector>
 #include<algorithm>
+#include<list>
 using namespace std;
-class Node{
-    public:
-        int val;
-        int key;
-        Node *next;
-        Node *prev;
-        Node(int k, int v){
-            key = k;
-            val = v;
-            next = prev = NULL;
-        }
-};
-
 class LRUCache{
-    int size, capacity;
-    Node *head, *tail;
-    unordered_map<int, Node*> cache;
+    int capacity;
+    list<pair<int, int>> li;
+    unordered_map<int, list<pair<int, int>>::iterator> cache;
 public:
     LRUCache(int capacity) {
         this->capacity = capacity;
-        size = 0;
-        head = tail = NULL;
     }
 
     int get(int key) {
         auto it = cache.find(key);
-        if(it!=cache.end()){
-            if(capacity > 1){
-                Node *curr = it->second;
-                if(curr!=head){
-                    if(curr == tail){
-                        tail = curr->next;
-                    }
-                    curr->next->prev = curr->prev;
-                    if(curr->prev)
-                        curr->prev->next = curr->next;
+        if(it == cache.end())   return -1;
 
-                    head->next = curr;
-                    curr->prev = head;
-                    head = curr;
-                }
-            }
-            cout<<it->second->val<<' ';
-            return it->second->val;
-        }
-        return -1;
+        int answer = it->second->second;
+        li.splice(li.begin(), li, it->second);
+        return answer;
     }
 
     void set(int key, int value) {
-        Node *n = new Node(key, value);
         auto it = cache.find(key);
-        if(it != cache.end())
-            delete it->second;
-        cache[key] = n;
-        if(size == 0){
-            head = tail = n;
-            size++;
+        if(it != cache.end()){
+            //it->second points to the element in the list that needs to be pushed to the front
+            //We splice li's (it->second) element to the front of li
+            li.splice(li.begin(), li, it->second);
+            //Update cache key->listNode pairing
+            cache[key] = it->second;
+            //Update the value stored for key
+            it->second->second = value;
         }
         else{
-            if(capacity == 1){
-                cache.erase(head->key);
-                head = tail = n;
+            if(li.size() == capacity){
+                // remove LRU element
+                int key_to_remove = li.back().first;
+                cache.erase(key_to_remove);
             }
-            else{
-                if(size == capacity){
-                    Node *temp = tail;
-                    tail->next->prev = NULL;
-                    tail  = tail->next;
-                    delete temp;
-                    size--;
-                }
-                head->next = n;
-                n->prev = head;
-                head = n;
-                size++;
-            }
+            // Insert new node into list & update cache
+            li.emplace_front(key, value);
+            cache[key] = li.begin();
         }
     }
 };
 int main(){
     class LRUCache c(2);
     //2,[get(2),set(2,6),get(1),set(1,5),set(1,2),get(1),get(2)]
-    //-1, -1, 2, 6
+    //Output: -1, -1, 2, 6
     cout<<c.get(2)<<endl;
+
     c.set(2, 6);
     cout<<c.get(1)<<endl;
     c.set(1, 5);
