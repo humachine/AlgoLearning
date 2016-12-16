@@ -1,4 +1,6 @@
 #https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+#If stock given as [7, -6, 4, -2, 4, -2] i.e diffs from the first element, the same problem boils down to the Maximum Subarray (Kadane's algorithm)
 """Test cases:
     [7, 1, 5, 3, 6, 4]: 5 [Buy at 1 and sell at 6]
     [7, 6, 4, 3, 1]: 0 [No transaction]
