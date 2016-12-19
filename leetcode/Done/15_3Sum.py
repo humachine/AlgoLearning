@@ -8,6 +8,10 @@ class Solution(object):
     def threeSum(self, nums):
         if len(nums)<2: return []
 
+        ''' Sort the array of numbers. Pick a number. Set left & right pointers
+        Depending on number + nums[left] + nums[right] vs TARGET, move the left and right pointers
+        '''
+
         TARGET = 0
         nums = sorted(nums)
         n = len(nums)

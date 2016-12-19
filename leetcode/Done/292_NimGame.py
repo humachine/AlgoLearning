@@ -13,4 +13,6 @@ class Solution(object):
 
             More generally, dp[i] = ~(dp[i-1] & dp[i-2] & dp[i-3])
         '''
+        #return (n%4)!=0
+        # n Modulo 4 can be visualized as n & 0b11
         return (n & 0b11)!=0

@@ -10,6 +10,10 @@ class Solution(object):
         if not nums or k==0:
             return False
         numSet = set()
+
+        '''To check if duplicate lies in the last k numbers, we maintain a set of the last k numbers seen. 
+        At each occasion, we remove the k+1th recent element and check if duplicate exists. 
+        '''
         for i in xrange(len(nums)):
             if i>k:
                 numSet.remove(nums[i-k-1])

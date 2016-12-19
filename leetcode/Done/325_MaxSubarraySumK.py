@@ -20,8 +20,7 @@ class Solution(object):
         n = len(nums)
         cumSum = {}
         cumSum[0] = -1
-        Sum = 0
-        maxLen = 0
+        Sum = maxLen = 0
         '''
         Compute running sums. For each sum, check if there exists a cumulative sum K lesser than this.
         Update cumSums only if you have a new key. 

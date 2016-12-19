@@ -15,6 +15,7 @@ class Solution(object):
         return Sum
 
     def isHappy(self, n):
+        '''Pick a number and keep performing square sums until you hit 1 or repeat a number'''
         nums = set()
         while n not in nums:
             if n==1:

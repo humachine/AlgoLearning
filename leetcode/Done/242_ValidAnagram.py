@@ -8,6 +8,7 @@
 from collections import defaultdict
 class Solution(object):
     def isAnagram(self, s, t):
+        '''Compute character counts. Make sure that all character counts are zero after visiting both strings'''
         charCounts = defaultdict(int)
         for char in s:
             charCounts[char]+=1
