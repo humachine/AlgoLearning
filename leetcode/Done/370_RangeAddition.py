@@ -1,5 +1,4 @@
 #https://leetcode.com/problems/range-addition/
-from collections import defaultdict
 class Solution(object):
     def getModifiedArray(self, length, updates):
         if not updates or length==0:
@@ -10,10 +9,9 @@ class Solution(object):
         for startInd, endInd, inc in updates:
             changes[startInd] += inc
             changes[endInd+1] -= inc
-        changes[-1] = 0
 
         # Start at 0 and maintain a continuous sum of changes. The value of the continuous sum at each i is answer[i]
-        for i in xrange(length):
+        for i in xrange(1, length):
             changes[i] += changes[i-1]
         return changes[:-1]
 
