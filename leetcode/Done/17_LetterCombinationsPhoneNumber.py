@@ -3,6 +3,8 @@
     Inp: '23'
     Out: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
 '''
+# Note: The non-BT approach uses O(len(result)) amount of space in every iteration
+# The BT approach uses only O(len(inputDigits)) amount of STACK space in every iteration.
 class Solution(object):
     def letterCombinations(self, digits):
         digitMap = {'0': ' ', '1':'*', '2':'abc', '3':'def', '4':'ghi',

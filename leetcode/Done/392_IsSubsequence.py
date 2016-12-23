@@ -12,16 +12,25 @@ from bisect import bisect_left
 
 class Solution(object):
     def isSubsequence(self, s, t):
-        if not t: return False
+        if not s: return True
+        if not t:   return False
 
         m, n = len(s), len(t)
 
-        left, right = 0, n
+        left = 0
+        '''
+        We pick the first character of s and look for it starting at position 0 of t. 
+        If we don't find it at all, we return False
+
+        Say, we find it at position k, the problem is now to find s[1:] in t[k:]
+        '''
         for i in xrange(m):
-            while left < right:
+            while left < n:
                 left += 1
                 if t[left-1] == s[i]:
                     break
+            # Else condition is triggered only if the while condition fails (i.e left reaches the end of string t, which is n)
+            # If left reaches n, then we are unable to find some character before the end ofthe string and hence we return False
             else:
                 return False
         return True
@@ -51,7 +60,7 @@ class Solution(object):
             i = bisect_left(charMap[char], lowBound)
 
             # If there are no more occurences of char beyond lowBound
-            if i == len(t):
+            if i == len(charMap[char]):
                 return False
             lowBound = charMap[char][i]+1
         return True
@@ -60,3 +69,4 @@ class Solution(object):
 s = Solution()
 print s.isSubsequencePreProcess('abc', 'ahgbdc')
 print s.isSubsequencePreProcess('axc', 'ahgbdc')
+print s.isSubsequencePreProcess('acb', 'ahgbdc')

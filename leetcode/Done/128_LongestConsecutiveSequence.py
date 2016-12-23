@@ -43,6 +43,8 @@ class Solution(object):
         numSet = set(nums)
         maxLen = 0
         for num in numSet:
+            # If the previous number does not exist, then this is the START of an interval.
+            # Run through the interval and update max accordingly
             if num-1 not in numSet:
                 start, end = num, num+1
                 while end in numSet:
