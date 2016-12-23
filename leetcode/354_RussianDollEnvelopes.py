@@ -12,19 +12,20 @@ class Solution(object):
         envelopes.sort(key = lambda x: (x[0], x[1]))
         n = len(envelopes)
         dp = [1]*n
-        maxSoFar = 1
-        maxCandidate = envelopes[0]
+        maxSoFar, maxCandidate = 1, envelopes[0]
         print envelopes
+
         for i in xrange(1, n):
             curr = envelopes[i]
             target = (curr[0]-1, curr[1]-1)
-            lowest = bisect_left(envelopes, target)
+            lowest = bisect_right(envelopes, target)
+            print target, lowest
             if lowest == 0:
                 continue
-            dp[i] = dp[lowest]+1
+            dp[i] = dp[lowest-1]+1
             # print lowest, curr, target
         print dp
 
-inp =  [[5,4],[6,4],[6,7],[2,3], [2,5]]
+inp =  [[5,4],[6,4],[6,7],[2,3], [2,5], [3, 6], [3, 4]]
 s = Solution()
 print s.maxEnvelopes(inp)
