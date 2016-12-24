@@ -1,6 +1,9 @@
 #https://leetcode.com/problems/maximum-gap
 '''
 Given an unsorted array, find the maximum gap between consecutive elements in the sorted version of the array
+
+Inp: [3, 1, -4, 5, 8]
+Out: 5 (-4 to 1)
 '''
 class Solution(object):
     def maximumGap(self, nums):
