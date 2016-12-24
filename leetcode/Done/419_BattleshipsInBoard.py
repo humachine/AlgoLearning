@@ -9,7 +9,7 @@ Out: 2
 Battleships will always have a cell separating them. A battleship is any 
 '''
 class Solution():
-    def countBattleShips(self, board):
+    def countBattleships(self, board):
         if not board:   return 0
         ships = 0
         m, n = len(board), len(board[0])

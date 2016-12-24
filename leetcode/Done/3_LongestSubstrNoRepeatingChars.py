@@ -9,6 +9,7 @@
 """
 class Solution(object):
     def lengthOfLongestSubstring(self, s):
+        ''' Commented lines contain code to extract the longest such string '''
         if len(s) <= 1:
             return len(s)
 
@@ -16,6 +17,12 @@ class Solution(object):
         maxLen = start = 0
         # maxStart = maxEnd = 0
 
+        '''
+        charPos contains a dictionary which has the latest index at which a particular character was seen.
+        If we find a character and it already exists in the dictionary, we check if it happened after our current substring's start. 
+        If no, then we can carry on because this IS the first time we are seeing that character in THIS substring.
+        If yes, we have to discard all characters upto after that first occurence
+        '''
         for i in xrange(len(s)):
             if s[i] in charPos and charPos[s[i]]>=start:
                 start = charPos[s[i]]+1
