@@ -4,7 +4,6 @@ Given a string S and a string T, find the minimum window in S which will contain
 
     Inp: "ADOBECODEBANC","ABC"
     Out: "BANC"
-
 '''
 from collections import defaultdict, Counter
 class Solution(object):
