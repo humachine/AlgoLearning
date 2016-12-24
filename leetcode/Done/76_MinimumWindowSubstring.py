@@ -13,8 +13,7 @@ class Solution(object):
 
         charCounts = defaultdict(int)
         #Build Character Counts Map
-        for c in t:
-            charCounts[c] += 1
+        charCounts = Counter(t)
         start = end = head = tail = 0
         counter, minLen = len(t), len(s)+1
 
@@ -46,29 +45,8 @@ class Solution(object):
         return s[head:tail] if minLen != len(s)+1 else ''
 
 
-    def minWindowConcise(self, s, t):
-        charCounts = Counter(t)
-        missingChars = len(t)
-
-        start = end = head = tail = 0
-        minLen = 3
-        for end, char in enumerate(s):
-            missingChars -= charCounts[char] > 0
-            charCounts[char] -= 1
-
-            if not missingChars:
-                if end + 1 - start < minLen:
-                    minLen = end + 1 - start
-                    head, tail = start, end+1
-                # print start, s[start], charCounts[s[start]]
-                while start<end and charCounts[s[start]] <= 0:
-                    # print start, s[start], charCounts[s[start]]
-                    charCounts[s[start]]+=1
-                    start+=1
-                missingChars+=1
-        return s[head:tail] if minLen != len(s)+1 else ''
                     
 s = Solution()
 
-print s.minWindowConcise('ADOBECODEBANC', 'ABC')
-# print s.minWindowConcise('ADOBEBODEBANA', 'ABC')
+print s.minWindow('ADOBECODEBANC', 'ABC')
+print s.minWindow('ADOBEBODEBANA', 'ABC')
