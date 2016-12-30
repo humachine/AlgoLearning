@@ -21,6 +21,33 @@ class Solution(object):
                     break
                 numWays[i] += numWays[i-num]
         return numWays[-1]
+
+    def backTrack(self, nums, start, remaining, comb):
+        # If our sum has exceeded target, then the remaining amount will be -ve. Hence we just return
+        if remaining<0:
+            return
+        # If we have reached target, remaining will reach zero. We count this is as 1 extra combination
+        if remaining==0:
+            comb[0]+=1
+            return
+        # We go through all numbers, backTrack on the remaining sum
+        for i in xrange(0, len(nums)):
+            # If the number > remaining, we break since all forthcoming numbers will also > remaining (ascending sorted)
+            if nums[i]>remaining:
+                break
+            self.backTrack(nums, i, remaining-nums[i], comb)
+
+    def combinationSum4BT(self, nums, target):
+        ''' In another standard BT solution, we try to reach target using nums'''
+        nums.sort()
+        comb = [0]
+        self.backTrack(nums, 0, target, comb)
+        return comb[0]
+
 s = Solution()
 print s.combinationSum4([1, 3, 2], 4)
-
+print s.combinationSum4BT([1, 3, 2], 4)
+print s.combinationSum4BT([1, 2, 4], 14)
+print s.combinationSum4([1, 2, 4], 14)
+print s.combinationSum4([1, 2, 4], 32)
+print s.combinationSum4BT([1, 2, 4], 32)
