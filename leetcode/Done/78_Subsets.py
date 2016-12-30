@@ -37,6 +37,22 @@ class Solution(object):
             return [[]]
         return self.subsetsRecursive(nums, 0)
     
+    def backtrack(self, nums, start, path, res):
+        # We append all paths to result, since each of them represent a separate subset
+        res.append(list(path))
+        for i in xrange(start, len(nums)):
+            # For each of the remaining numbers, add them into the path and recurse.
+            # Then backtrack, remove the number, add a new number and repeat
+            path.append(nums[i])
+            self.backtrack(nums, i+1, path, res)
+            path.pop()
+
+    def subsetsBT(self, nums):
+        # Here, we employ a backtracking approach to generating subsets
+        res = []
+        self.backtrack(nums, 0, [], res)
+        return res
+
     def subsetsIterative(self, nums):
         # We start out with an empty set. At each point, we add a new number to all elements of the current set and append them to the current set
         # [[]] 
@@ -74,3 +90,4 @@ s = Solution()
 print s.subsetsIterative([1, 2, 3])
 print s.subsets([1, 2, 3])
 print s.subsetsBinary([1, 2, 3])
+print s.subsetsBT([1, 2, 3])
