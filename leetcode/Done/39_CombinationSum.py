@@ -6,6 +6,33 @@ Given a set of candidate numbers (C) (without duplicates) and a target number (T
     Out: [ [7], [2, 2, 3] ]
 '''
 class Solution(object):
+    def _backTrack(self, candidates, target, start, path, res):
+        ''' We employ a typical backtracking approach to solve this problem.
+        We try to find target using candidates[start:].
+        If cand <= target, add it to the path and recurse on target-cand
+
+        At any point if cand-target==0, then we add that path to the result.
+        '''
+        if target == 0: #Since target has been reached, add a copy of the path to result
+            res.append(list(path))
+        for i in xrange(start, len(candidates)):
+            cand = candidates[i]
+            if cand <= target:
+                path.append(cand)
+                self._backTrack(candidates, target-cand, i, path, res)
+                path.pop()
+            # If cand > target, all further candidates will be > target (sorted ascending)
+            else:
+                break
+
+    def combinationSumBT(self, candidates, target):
+        if not candidates: []
+        candidates.sort()
+        res = []
+        self._backTrack(candidates, target, 0, [], res)
+        return res
+
+
     def combinationSum(self, candidates, target):
         if not candidates: []
         candidates.sort()
@@ -27,4 +54,4 @@ class Solution(object):
 
         return numWays[-1]
 s = Solution()
-print s.combinationSum([2, 3, 7, 6], 7)
+print s.combinationSumBT([2, 3, 7, 6], 7)
