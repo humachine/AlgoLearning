@@ -17,7 +17,7 @@ class Solution(object):
         while rem > 0 and read==4:
             read = read4(buf4)  # Read 4 characters into buf4
             start, end = readSoFar, readSoFar + min(4, rem)
-            buf[start:end] = buf4[:min(4, rem)] #put buf4 into the appropriate position at buf
-            readSoFar += read if rem>=4 else min(rem, read) #Add the characters read to readSoFar
+            buf[start:end] = buf4[:min(read, rem)] #put buf4 into the appropriate position at buf
+            readSoFar += min(rem, read) #Add the characters read to readSoFar
             rem -= read #Remaining characters goes down by read
         return readSoFar
