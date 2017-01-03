@@ -34,9 +34,10 @@ class Trie:
         char = word[start]
         if char == '.':
             # If the character we encounter is the wildcard '.', then we run through all 26 possibilities and recurse on each of them. Even if one of those possibilities leads to a word match, we return true
-            for c in ALPHABET:
+            for c in node.children:
                 # Checking if the character c is in the node's children and leads to a valid word match
-                if c in node.children and self._searchWildCard(word, start+1, node.children[c]):
+                if self._searchWildCard(word, start+1, node.children[c]):
+                # if c in node.children and self._searchWildCard(word, start+1, node.children[c]):
                     return True
             # No matches found despite wildcard search
             return False
