@@ -1,16 +1,16 @@
-#https://leetcode.com/problems/course-schedule/
+#https://leetcode.com/problems/course-schedule-ii/
 ''' Given n courses (labeled 0 to n-1), some courses have prerequisites represented as (a,b): i.e to take a, you must have taken b.
-Given the total number of courses and prerequisites (if any), return if it is possible to cover all courses.
+Given the total number of courses and prerequisites (if any), return a valid ordering of courses so as to fulfil all dependencies.
 
     Inp: 2 [[1, 0]]
-    Out: True (Can be scheduled)
+    Out: [0, 1]
 
-    Inp: 2, [[1, 0], [0, 1]]
-    Out: False (Cyclic dependency)
+    Inp: 4, [[1,0],[2,0],[3,1],[3,2]]
+    Out: [0, 1, 2, 3] is one possible ordering
 '''
 from collections import deque
 class Solution(object):
-    def canFinishBFS(self, numCourses, prerequisites): # more accurately, this is a topological sort
+    def findOrderTopoSort(self, numCourses, prerequisites): # more accurately, this is a topological sort
         isPreReqFor = [set() for i in xrange(numCourses)] #isPreReqFor[x] is a set of courses for which x is the prerequisite for
         preReqNeededCount = [0]*numCourses # preReqNeededCount[x] = number of prerequisites course x has
         for course, reqd in prerequisites:
@@ -24,18 +24,20 @@ class Solution(object):
             if preReqNeededCount[course] == 0: #If no prerequisites needed for this course, then add it to the queue
                 q.append(course)
 
-        coursesCovered = len(q)
+        courseOrdering = []
         while q:
             preReq = q.popleft()
+            courseOrdering.append(preReq)
             for course in isPreReqFor[preReq]: # If course doesn't require any more prerequisites, add it to the queue.
                 preReqNeededCount[course] -= 1
                 if preReqNeededCount[course] == 0:
                     q.append(course)
-                    coursesCovered+=1 
-        # If we have covered all courses, then we return True. Else, there was a cycle somewhere
-        return coursesCovered == numCourses
+        # If we have covered all courses, then we return the ordereing. Else, there was a cycle somewhere
+        if len(courseOrdering) == numCourses:
+            return courseOrdering
+        return []
 
-    def canFinishDFS(self, numCourses, prerequisites):
+    def findOrderDFS(self, numCourses, prerequisites):
         ''' We run a DFS starting at all nodes and exploring all nodes connected to them. 
         Each node has 3 states: UNVISITED, CURRENTLY_VISITING, VISITED
 
@@ -63,18 +65,39 @@ class Solution(object):
                 if not isSchedulable(neighbour):
                     return False
             visited[course] = VISITED #Once all neighbours have been visited, current course state goes to VISITED
+            courseOrdering.append(course)
+            ''' Once we are done visiting a node, we add it to courseOrdering. If 2 depends on 1 which depends on 0 and we start DFS at 1.
+            1 leads to 2. We then append 2 to the list.
+            When the recursion unrolls, we then append 1 to the list.
+
+            Finally when we process 0 and append 0 to the list. The early elements of the list are the elements which have the most dependencies. The later elements of the list are the courses that have the least dependencies. 
+            Hence we finally reverse the courseOrdering list to get the ordering of courses that we desire.
+            '''
             return True
 
 
+        courseOrdering = []
         for course in xrange(numCourses):
             if not isSchedulable(course):
-                return False
-        return True
+                return []
+        return courseOrdering[::-1]
 
-    def canFinish(self, numCourses, prerequisites):
-        # return self.canFinishBFS(numCourses, prerequisites)
-        return self.canFinishDFS(numCourses, prerequisites)
+    def findOrder(self, numCourses, prerequisites):
+        ''' The TopoSort lists all the courses with no dependencies at the front and progressively courses with more and more dependencies.
+        The DFS on the other hand lists courses in an order that's valid, but does not necessarily begin with the courses with no dependcies.
+
+        Suppose courses were as below (4 depends on 3, 6 depends on 4 etc)
+        3 - 4 - 6
+         \
+          5- 7 - 8 - 9 - 11
+        Topo sort returns 3 first, then 4, 5 then 6, 7 and so on. (It returns level by level since it's a BFS)
+        DFS may return any list, like say, [3, 5, 4, 6, 7, 8, 9, 11]
+        '''
+        # return self.findOrderTopoSort(numCourses, prerequisites)
+        return self.findOrderDFS(numCourses, prerequisites)
+
 s = Solution()
-print s.canFinish(2, [[1, 0]])
-print s.canFinish(3, [[1, 0], [0, 1]])
-print s.canFinish(10, [[5,8],[3,5],[1,9],[4,5],[0,2],[1,9],[7,8],[4,9]])
+print s.findOrder(2, [[1, 0]])
+print s.findOrder(3, [[1, 0], [2, 1]])
+print s.findOrder(3, [[1, 0], [0, 1]])
+print s.findOrder(10, [[5,8],[3,5],[1,9],[4,5],[0,2],[1,9],[7,8],[4,9]])
