@@ -16,8 +16,8 @@ class Solution(object):
             permutation.pop() #Popping the recently added number from the permutation.
 
     def permute(self, nums):
-        res = []
-        self.generatePermutations(nums, 0, [], res)
+        res, currPath = [], []
+        self.generatePermutations(nums, 0, currPath, res)
         return res
 
     def permuteIterative(self, nums):
