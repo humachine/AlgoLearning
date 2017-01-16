@@ -9,18 +9,20 @@ class Solution(object):
     def findMinArrowShots(self, points):
         if not points:  return 0
         points.sort(key = lambda x: x[0])
-        res = [points[0]]
+        res = points[0]
         ''' We regard this as an intervals problem. We sort all intervals by start time. The locations at which 2 balloons can be burst are at their intersection. 
         For consecutive pairs of balloons, they can be burst with just one arrow if they have an overlap. Else, you'll have to use 2 arrows. We just store the intersections between intervals.
         '''
+        arrows = 1
         for interval in points:
             start, end = interval
-            if start <= res[-1][1]: #If this interval starts before the end of the previous interval, then we can just use a single well-placed arrow to burst both this balloon and the previous balloon.
-                res[-1][0] = max(res[-1][0], start) # Updating intersection start
-                res[-1][1] = min(res[-1][1], end) # Intersection end = min(prevEnd, currEnd)
+            if start <= res[1]: #If this interval starts before the end of the previous interval, then we can just use a single well-placed arrow to burst both this balloon and the previous balloon.
+                res[0] = max(res[0], start) # Updating intersection start
+                res[1] = min(res[1], end) # Intersection end = min(prevEnd, currEnd)
             else:
-                res.append(interval) #If there's no intersection, we use a full new arrow for this interval
-        return len(res)
+                arrows+=1
+                res = interval #If there's no intersection, we use a full new arrow for this interval
+        return arrows
 s = Solution()
 inp = [[10,16], [2,8], [1,6], [7,12]]
 print s.findMinArrowShots(inp)
