@@ -32,7 +32,7 @@ class Solution(object):
                 else:
                     left = mid+1
             # If left...mid wasn't an ascending sequence, then mid..right will definitely be one.
-            elif nums[mid] <= nums[right]: 
+            else: 
                 if nums[mid] < target <= nums[right]: # Similar to above, if target lies in this ascending sequence, search exclusively in this sequence
                     # loc = mid+1 + bisect_left(nums[mid+1:right], target)
                     # return loc if nums[loc] == target else -1
