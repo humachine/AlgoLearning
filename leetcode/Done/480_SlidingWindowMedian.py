@@ -79,6 +79,7 @@ class Solution(object):
                     to_be_deleted[-bottom_half[0]]-=1
                     heappop(bottom_half)
         return map(float, res)
+
 s = Solution()
 print s.medianSlidingWindow(range(1, 6)+ range(4, 0, -1), 3)
 print s.medianSlidingWindow([1,3,-1,-3,5,3,6,7], 3)
