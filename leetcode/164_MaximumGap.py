@@ -14,7 +14,7 @@ class Solution(object):
         numberMap = {nums[i]:i for i in xrange(n)}
         if minimum == maximum:
             return 0
-        maxGap = 1
+        maxGap = 1  
         start = minimum
         while start < maximum:
             nextElem = 
