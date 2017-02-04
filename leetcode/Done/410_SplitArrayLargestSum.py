@@ -35,7 +35,7 @@ class Solution(object):
 
         We now run a binary search between arrayMax & arraySum. For each candidate during this binary search we check if it can lead to valid split of the array into <= m pieces, each with maxSum < candidate.
 
-        Next we observe that i fan array can be split into x(x<=m) portions with each portion having its sum as <= maxSplit, then it's as good as building an m-split array. (some of the portions can be further broken down to give m splits. Since the portions are only getting smaller, the maxSplit limit is not going to breached by breaking any of the portions further smaller.
+        Next we observe that if an array can be split into x(x<=m) portions with each portion having its sum as <= maxSplit, then it's as good as building an m-split array. (some of the portions can be further broken down to give m splits. Since the portions are only getting smaller, the maxSplit limit is not going to breached by breaking any of the portions further smaller.
         '''
         arrayMax, n, cumSums, some = max(nums), len(nums), [], 0
         # Building cumulative sums list
