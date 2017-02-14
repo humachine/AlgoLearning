@@ -5,32 +5,25 @@ Out: '100'
 """
 class Solution(object):
     def addBinary(self, a, b):
-        if not a or not b:
-            return a if not b else b
-        m, n = len(a)-1, len(b)-1
-        carry = Sum = 0
-        ans = []
+        total = carry = 0
+        i, j = len(a)-1, len(b)-1
+        res = []
 
-        #If characters exist in either string, use them
-        #Or if carry is non-zero, use it
-        # Finally invert the string and return
-        while carry>0 or m>=0 or n>=0:
-            Sum = carry
+        # As long as there are digits on either number (or carry remaining), 
+        # use them up
+        while carry or i>=0 or j>=0:
+            term1 = i>=0 and int(a[i])
+            term2 = j>=0 and int(b[j])
 
-            if m>=0:
-                Sum += int(a[m])
-                m-=1
+            total = term1 + term2 + carry
+            res.append(total%2)
 
-            if n>=0:
-                Sum+= int(b[n])
-                n-=1
+            carry = total/2
+            i, j = i-1, j-1
 
-            carry = Sum/2
-            Sum = Sum & 1
-            ans.append(Sum)
+        # Reverse the list and convert to a string
+        return ''.join([str(x) for x in res[::-1]])
 
-        ans = map(str, ans)
-        return ''.join(ans[::-1])
 s = Solution()
-print s.addBinary('11', '1')
-print s.addBinary('101111', '10')
+assert s.addBinary('11', '1') == '100'
+assert s.addBinary('101111', '10') == '110001'
