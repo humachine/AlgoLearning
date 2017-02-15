@@ -15,41 +15,34 @@ class TreeNode(object):
         self.left = None
         self.right = None
 
-from collections import defaultdict
-from Queue import Queue
+import collections
 class Solution():
     def verticalOrder(self, root):
-        if not root:    return []
-        levelMap = defaultdict(list)
+        if not root:
+            return []
+        # We form a queue of nodes to traverse the tree in a BFS manner.
+        # At each point, we maintain the vertical level/column of the node
+        # We have a dictionary which holds the levels of the tree
+        levels = collections.defaultdict(list)
+        queue = collections.deque()
+        queue.append((root, 0))
 
-        # Set up Queue for BFS
-        queue = [(root, 0)]
-        for node, level in queue:
-            if node:
-                # Add each node to appropriate level
-                levelMap[level].append(node.val)
-                queue.append((node.left, level-1))
-                queue.append((node.right, level+1))
-                
-        minLevel, maxLevel = min(levelMap.keys()), max(levelMap.keys())
-        return [levelMap[level] for level in xrange(minLevel, maxLevel+1)]
+        while queue:
+            node, col = queue.popleft()
+            levels[col].append(node.val)
+            if node.left:
+                queue.append((node.left, col-1))
+            if node.right:
+                queue.append((node.right, col+1))
+        # Finally, we calculate the range of columns that we have to traverse through
+        # We traverse through all columns and add them all into the list
 
-
-    def verticalOrderQ(self, root):
-        ''' Same function as above. Implemented with Python Queue.Queue'''
-        if not root:    return []
-        levelMap = defaultdict(list)
-
-        queue = Queue()
-        queue.put((root, 0))
-        while not queue.empty():
-            node, level = queue.get()
-            if node:
-                levelMap[level].append(node.val)
-                queue.put((node.left, level-1))
-                queue.put((node.right, level+1))
-        minLevel, maxLevel = min(levelMap.keys()), max(levelMap.keys())
-        return [levelMap[level] for level in xrange(minLevel, maxLevel+1)]
+        # This same problem could alternatively be performed WITHOUT a hashtable
+        # We maintain two lists: 1) Containing nodes with columns >= 0
+        # 2) Containing nodes on columns < 0
+        # list2.reverse() + list1 is the list of all levels.
+        min_col, max_col = min(levels.keys()), max(levels.keys())
+        return [levels[col] for col in xrange(min_col, max_col+1)]
 
 s = Solution()
 root = TreeNode(3)
@@ -59,3 +52,4 @@ root.right.left = TreeNode(15)
 root.right.right = TreeNode(7)
 
 print s.verticalOrderQ(root)
+print s.verticalOrder(root)
