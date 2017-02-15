@@ -71,3 +71,7 @@ B = [ [ 7, 0, 0 ],
   [ 0, 0, 0 ],
   [ 0, 0, 1 ] ]
 print s.multiply(A, B)
+
+A = [[1, -5]]
+B = [[12], [-1]]
+print s.multiply(A, B)

@@ -46,6 +46,36 @@ class Solution(object):
         englishNumber = ' '.join(res[::-1])
 
         return englishNumber if englishNumber else 'Zero'
+    
+
+    def convertToWords(self, num):
+        below_20 = ('One Two Three Four Five Six Seven Eight Nine '
+                'Ten Eleven Twelve Thirteen Fourteen Fifteen Sixteen '
+                'Seventeen Eighteen Nineteen').split()
+        tens = ['', ''] + 'Twenty Thirty Forty Fifty Sixty Seventy Eighty Ninety'.split()
+        if not num:
+            return []
+        if num<20:
+            return below_20[num-1:num]
+        if num<100:
+            res = [tens[num/10]]
+            if num%10:
+                res.extend(self.convertToWords(num%10))
+            return res
+        return self.convertToWords(num/100) + ['Hundred'] + self.convertToWords(num%100)
+
+
+    def numberToWords2(self, num):
+        if not num:
+            return 'Zero'
+        thousands = ['', 'Thousand', 'Million', 'Billion']
+        ans = []
+        for i in xrange(len(thousands)):
+            if num%1000 != 0:
+                res = self.convertToWords(num%1000) + thousands[i:i+1]
+                ans.append(' '.join([str(x) for x in res if x]))
+            num/=1000
+        return ' '.join([x for x in ans[::-1] if x])
 
 s = Solution()
 print s.numberToWords(25)
