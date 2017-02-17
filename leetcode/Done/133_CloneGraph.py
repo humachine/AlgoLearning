@@ -10,14 +10,13 @@ class Solution:
     # @param node, a undirected graph node
     # @return a undirected graph node
         if not node:    return node
-        nodes, q = {}, Queue()
+        q = Queue()
         q.put(node)
+        q = {node.label: UndirectedGraphNode(node.label)}
         # We begin with a queue containing just the seed node
         while not q.empty():
             # As long as we have nodes, we keep polling the queue and cloning them
             n = q.get()
-            if n.label not in nodes: #If no clone already exists, then create a copy and add it to the dictionary too
-                nodes[n.label] = UndirectedGraphNode(n.label)
             # For each of the original node's neighbors, if there aren't clones for the neighbors, create them. Append a reference to the cloned neighbors in the cloned copy's neighbors attribute.
             # Finally put each of the neighbors in the queue for them to cloned themselves (which leads to the cloning of their neighbors and so on...)
             for neighbor in n.neighbors:
