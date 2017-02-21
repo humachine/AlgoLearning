@@ -26,21 +26,23 @@ class Solution(object):
         :rtype: List[Interval]
         """
         if not intervals:   return intervals
-        intervals.sort(key = lambda x: (x.start, x.end))
+        intervals.sort(key = lambda x: x.start
 
         prev = intervals[0]
         res = []
         for i, curr in enumerate(intervals[1:]):
             # If the previous interval can be merged with current interval, merge it
             if prev.end >=  curr.start:
-                prev.start, prev.end = min(curr.start, prev.start), max(prev.end, curr.end)
+                # prev.start, prev.end = min(curr.start, prev.start), max(prev.end, curr.end)
+                # Since the intervals are arranged in ascending order of starttime,
+                # min(prev.start, curr.start) always is prev.start
+                prev.start, prev.end = prev.start, max(prev.end, curr.end)
             else:
             # If current and previous intervals are disjoint, add previous interval to result
                 res.append(prev)
                 prev = curr
-        # If a previous interval remains, add it to the answer
-        if prev:
-            res.append(prev)
+        # We just append the last remaining interval (prev) to the result
+        res.append(prev)
         return res
 
 inp = [Interval(1, 3), Interval(8, 10), Interval(15, 18), Interval(2, 6)]

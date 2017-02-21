@@ -14,14 +14,14 @@ class Solution(object):
         For each of these x numbers, their hamming distance with the other n-x numbers increases by 1.
         Nothing is added to the hamming distances of the pairs of numbers both belonging to x (or both belonging to the n-x set)
         '''
-        if len(nums) <= 1:  return 0
-        bitStrings = [format(x, '064b') for x in nums] #Using 64 bit numbers
-
+        if len(nums) <= 1:  
+            return 0
         total, n = 0, len(nums)
+
         for bit in xrange(64):
             oneCount = 0
             for i in xrange(n):
-                if bitStrings[i][bit] == '1':
+                if (nums[i]>>bit) & 0b1:
                     oneCount+=1
             # The total hamming distance sum increases by oneCount times the number of numbers who had 0 at this bit
             total += oneCount * (n-oneCount)
