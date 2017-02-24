@@ -7,9 +7,9 @@ class TreeNode:
 def printTreeContents(root):
     if not root:
         return
-    print root.val,
     if root.left:
         printTreeContents(root.left)
+    print root.val,
     if root.right:
         printTreeContents(root.right)
 
